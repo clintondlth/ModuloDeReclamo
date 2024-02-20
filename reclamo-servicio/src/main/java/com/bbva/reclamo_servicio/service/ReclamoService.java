@@ -1,26 +1,36 @@
 package com.bbva.reclamo_servicio.service;
 
 
+
+
+import com.bbva.reclamo_servicio.dto.ResponseDTO;
+import com.bbva.reclamo_servicio.dto.TipoReclamoDTO;
 import com.bbva.reclamo_servicio.model.entities.Reclamo;
 import com.bbva.reclamo_servicio.repository.ReclamoRepository;
-import com.bbva.tipo_reclamo.model.entities.TipoReclamo;
-import com.bbva.tipo_reclamo.repository.TipoReclamoRepository;
 
-import com.bbva.tipo_reclamo.service.TipoReclamoService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+
+
 public class ReclamoService {
 
+    private final RestTemplate restTemplate;
 
     private final ReclamoRepository reclamoRepository;
 
+
     @Autowired
-    public ReclamoService(ReclamoRepository reclamoRepository) {
+    public ReclamoService(RestTemplate restTemplate, ReclamoRepository reclamoRepository) {
+        this.restTemplate = restTemplate;
         this.reclamoRepository = reclamoRepository;
     }
 
@@ -32,9 +42,7 @@ public class ReclamoService {
         return reclamoRepository.save(reclamo);
     }
 
-    public Optional<Reclamo> obtenerReclamoPorId(Long id) {
-        return reclamoRepository.findById(id);
-    }
+
 
     public Reclamo actualizarEstadoYRespuesta(Long id, String estadoReclamo, String respuestaReclamo) {
         Optional<Reclamo> reclamoOptional = reclamoRepository.findById(id);
@@ -47,13 +55,32 @@ public class ReclamoService {
             throw new RuntimeException("Reclamo no encontrado con ID: " + id);
         }
     }
+/*
+    public Reclamo obtenerReclamoPorId(Long id) {
+        Optional<Reclamo> reclamoOptional = reclamoRepository.findById(id);
+        return reclamoOptional.orElseThrow(() -> new RuntimeException("Reclamo no encontrado en la base de datos con codgio: " + id));
+    }
+*/
+public ResponseDTO getReclamoByid(Long id) {
+    ResponseDTO responseDTO = new ResponseDTO();
+    Optional<Reclamo> reclamoOptional = reclamoRepository.findById(id);
 
+    if (reclamoOptional.isPresent()) {
+        Reclamo reclamo = reclamoOptional.get();
+        responseDTO.setReclamo(reclamo);
 
+        // Obtener el nombre del tipo de reclamo
+        ResponseEntity<TipoReclamoDTO> responseEntity = restTemplate.getForEntity(
+                "http://localhost:8084/tipo-reclamos/" + reclamo.getIdTipoReclamo(),
+                TipoReclamoDTO.class);
 
-    //public String obtenerDescripcionTipoReclamoPorCodigo(Long codigoTipoReclamo) {
-        // Llamar al método en el servicio de tipo de reclamo para obtener la descripción
-     //   return tipoReclamoService.obtenerDescripcionPorCodigo(codigoTipoReclamo);
-    //}
+        TipoReclamoDTO tipoReclamoDTO = responseEntity.getBody();
+        if (tipoReclamoDTO != null) {
+            responseDTO.setNombreTipoReclamo(tipoReclamoDTO.getNombreTipoReclamo());
+        }
+    }
 
+    return responseDTO;
+}
 
 }

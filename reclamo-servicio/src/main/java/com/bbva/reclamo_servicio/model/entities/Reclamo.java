@@ -1,5 +1,6 @@
 package com.bbva.reclamo_servicio.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -24,7 +25,8 @@ public class Reclamo {
     @JoinColumn(name = "ID_TIPO_RECLAMO")
     private int idTipoReclamo;
 
-    @Column(name = "FECHA_RECLAMO", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "FECHA_RECLAMO")
     private Date fechaReclamo;
 
     @Column(name = "FECHA_RESPUESTA")
