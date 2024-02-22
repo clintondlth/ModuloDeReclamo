@@ -69,7 +69,7 @@ public ResponseDTO getReclamoByid(Long id) {
         Reclamo reclamo = reclamoOptional.get();
         responseDTO.setReclamo(reclamo);
 
-        // Obtener el nombre del tipo de reclamo
+
         ResponseEntity<TipoReclamoDTO> responseEntity = restTemplate.getForEntity(
                 "http://localhost:8084/tipo-reclamos/" + reclamo.getIdTipoReclamo(),
                 TipoReclamoDTO.class);
