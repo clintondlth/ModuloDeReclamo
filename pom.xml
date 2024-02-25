@@ -30,6 +30,7 @@
 		<module>tipo-reclamo</module>
 		<module>cliente</module>
 		<module>producto</module>
+		<module>microservice-student</module>
 	</modules>
 
 	<dependencies>

@@ -33,3 +33,8 @@ spring:
           uri: http://localhost:8094
           predicates:
             -Path=/reclamos/**
+
+        - id: msvc-student
+          uri: http://localhost:8090
+          predicates:
+            -Path=/msvc-student/**
