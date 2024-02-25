@@ -1,0 +1,35 @@
+eureka:
+  client:
+    register-with-eureka: false
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: productos
+          uri: http://localhost:8091
+          predicates:
+            -Path=/productos/**
+
+        - id: clientes
+          uri: http://localhost:8092
+          predicates:
+            -Path=/clientes/**
+
+        - id: tipo-reclamos
+          uri: http://localhost:8093
+          predicates:
+            -Path=/tipo-reclamos/**
+
+        - id: reclamos
+          uri: http://localhost:8094
+          predicates:
+            -Path=/reclamos/**

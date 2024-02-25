@@ -55,12 +55,14 @@ public class ReclamoService {
             throw new RuntimeException("Reclamo no encontrado con ID: " + id);
         }
     }
-/*
+
     public Reclamo obtenerReclamoPorId(Long id) {
         Optional<Reclamo> reclamoOptional = reclamoRepository.findById(id);
         return reclamoOptional.orElseThrow(() -> new RuntimeException("Reclamo no encontrado en la base de datos con codgio: " + id));
     }
-*/
+
+
+/*
 public ResponseDTO getReclamoByid(Long id) {
     ResponseDTO responseDTO = new ResponseDTO();
     Optional<Reclamo> reclamoOptional = reclamoRepository.findById(id);
@@ -82,5 +84,5 @@ public ResponseDTO getReclamoByid(Long id) {
 
     return responseDTO;
 }
-
+*/
 }

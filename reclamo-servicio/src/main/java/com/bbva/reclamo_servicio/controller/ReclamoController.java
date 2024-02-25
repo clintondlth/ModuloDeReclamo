@@ -59,11 +59,11 @@ public class ReclamoController {
 
 
     }
-*/
+
  @GetMapping("/{id}")
  public ResponseEntity<ResponseDTO> getReclamoById(@PathVariable Long id) {
      ResponseDTO responseDTO = reclamoService.getReclamoByid(id);
      return ResponseEntity.ok(responseDTO);
  }
-
+*/
 }

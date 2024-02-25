@@ -1,5 +1,6 @@
 package com.bbva.reclamo_servicio.model.entities;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
@@ -14,7 +15,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 public class Reclamo {
 
     @Id
@@ -22,8 +22,11 @@ public class Reclamo {
     @Column(name = "ID_RECLAMO")
     private Long id;
 
-    @JoinColumn(name = "ID_TIPO_RECLAMO")
-    private int idTipoReclamo;
+    @Column(name = "ID_TIPO_RECLAMO")
+    private Long idTipoReclamo;
+
+    @Column(name = "ID_PRODUCTO")
+    private Long idTipoproducto;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "FECHA_RECLAMO")
@@ -41,6 +44,10 @@ public class Reclamo {
     @Column(name = "ESTADO_RECLAMO", length = 255)
     private String estadoReclamo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_CLIENTE")
+    private Cliente cliente;
+
     // Getters and setters
 
     @Override
@@ -48,6 +55,7 @@ public class Reclamo {
         return "Reclamo{" +
                 "id=" + id +
                 ", idTipoReclamo=" + idTipoReclamo +
+                ", idTipoproducto=" + idTipoproducto +
                 ", fechaReclamo=" + fechaReclamo +
                 ", fechaRespuesta=" + fechaRespuesta +
                 ", descripcionReclamo='" + descripcionReclamo + '\'' +

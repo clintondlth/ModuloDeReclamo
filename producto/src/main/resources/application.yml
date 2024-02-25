@@ -1,0 +1,9 @@
+
+spring:
+  application:
+    name: producto
+
+
+  config:
+    import: optional:configserver:http://localhost:8888
+
